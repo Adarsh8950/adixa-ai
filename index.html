@@ -1,0 +1,147 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#0b0b0d">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" href="icon.svg" type="image/svg+xml">
+  <title>ADIXA AI - Intelligence Beyond Limits</title>
+
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background: #0b0b0d;
+      color: #ffffff;
+      font-family: Arial, sans-serif;
+    }
+    header {
+      padding: 22px;
+      border-bottom: 1px solid #333;
+      color: #d6b15e;
+      font-size: 24px;
+      font-weight: bold;
+      letter-spacing: 2px;
+    }
+    main {
+      max-width: 900px;
+      margin: auto;
+      padding: 35px 20px;
+    }
+    h1 { font-size: 42px; }
+    .gold { color: #d6b15e; }
+    .card {
+      background: #17171c;
+      border: 1px solid #333;
+      border-radius: 14px;
+      padding: 22px;
+      margin: 18px 0;
+    }
+    button {
+      background: #d6b15e;
+      color: #111;
+      border: none;
+      border-radius: 8px;
+      padding: 12px 18px;
+      font-weight: bold;
+      cursor: pointer;
+      margin: 5px;
+    }
+    input, textarea {
+      width: 100%;
+      padding: 12px;
+      margin: 10px 0;
+      border-radius: 8px;
+      border: 1px solid #555;
+      background: #0b0b0d;
+      color: white;
+    }
+    footer {
+      padding: 25px;
+      text-align: center;
+      color: #999;
+    }
+  </style>
+</head>
+
+<body>
+  <header>ADIXA AI</header>
+
+  <main>
+    <h1>Intelligence <span class="gold">Beyond Limits</span></h1>
+    <p>Your AI-powered social media workspace.</p>
+
+    <section class="card">
+      <h2>Connect Social Accounts</h2>
+      <button onclick="demo('Instagram')">Instagram</button>
+      <button onclick="demo('Facebook')">Facebook</button>
+      <button onclick="demo('YouTube')">YouTube</button>
+      <p id="connection">Demo mode: accounts are not connected.</p>
+    </section>
+
+    <section class="card">
+      <h2>AI Caption Assistant</h2>
+      <input id="topic" placeholder="Enter your post topic">
+      <button onclick="generateCaption()">Generate Caption</button>
+      <textarea id="result" rows="4" placeholder="Your caption will appear here"></textarea>
+      <button onclick="copyCaption()">Copy Caption</button>
+    </section>
+
+    <section class="card">
+      <h2>Content Planner</h2>
+      <input id="draft" placeholder="Enter your draft title">
+      <button onclick="saveDraft()">Save Draft</button>
+      <p id="status"></p>
+    </section>
+
+    <p>ADIXA AI is currently a starter demo. Real AI, account connections and publishing will be added later.</p>
+  </main>
+
+  <footer>© 2026 ADIXA AI. All rights reserved.</footer>
+
+  <script>
+    function demo(platform) {
+      document.getElementById("connection").textContent =
+        platform + " connection is demo-only. Official setup is coming later.";
+    }
+
+    function generateCaption() {
+      const topic = document.getElementById("topic").value.trim();
+      if (!topic) {
+        document.getElementById("result").value = "Please enter a topic first.";
+        return;
+      }
+      document.getElementById("result").value =
+        "Discover more about " + topic +
+        "! ✨\nWhat do you think? Share below.\n#ADIXAAI #SocialMedia";
+    }
+
+    function copyCaption() {
+      const text = document.getElementById("result");
+      text.select();
+      document.execCommand("copy");
+    }
+
+    function saveDraft() {
+      const title = document.getElementById("draft").value.trim();
+      if (!title) {
+        document.getElementById("status").textContent =
+          "Please enter a draft title.";
+        return;
+      }
+      const drafts = JSON.parse(localStorage.getItem("adixaDrafts") || "[]");
+      drafts.push(title);
+      localStorage.setItem("adixaDrafts", JSON.stringify(drafts));
+      document.getElementById("status").textContent = "Draft saved!";
+    }
+
+    if ("serviceWorker" in navigator) {
+      window.addEventListener("load", function() {
+        navigator.serviceWorker.register("./sw.js").catch(function() {});
+      });
+    }
+  </script>
+</body>
+</html>
